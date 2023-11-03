@@ -54,7 +54,7 @@ app = quart.Quart(__name__)
 async def get_measurement(ip: str, session: aiohttp.ClientSession)-> Measurement|None:
     try:
         res = await session.get(f"http://{ip}/report", timeout=1)
-    except aiohttp.ClientConnectorError:
+    except (aiohttp.ClientConnectorError, asyncio.TimeoutError):
         devices.remove(ip)
         return None
 
